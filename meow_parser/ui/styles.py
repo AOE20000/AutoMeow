@@ -15,20 +15,41 @@ from ..constants import IS_WINDOWS, IS_LINUX, IS_MACOS
 class ThemeDetector:
     """系统主题检测器"""
     
+    # 缓存主题检测结果
+    _cached_theme = None
+    _cache_time = 0
+    _cache_duration = 5  # 缓存 5 秒
+    
     @staticmethod
     def get_system_theme():
-        """检测系统主题（dark/light）"""
+        """检测系统主题（dark/light）- 带缓存"""
+        import time
+        current_time = time.time()
+        
+        # 如果缓存有效，直接返回
+        if (ThemeDetector._cached_theme is not None and 
+            current_time - ThemeDetector._cache_time < ThemeDetector._cache_duration):
+            return ThemeDetector._cached_theme
+        
+        # 检测主题
         try:
             if IS_WINDOWS:
-                return ThemeDetector._get_windows_theme()
+                theme = ThemeDetector._get_windows_theme()
             elif IS_MACOS:
-                return ThemeDetector._get_macos_theme()
+                theme = ThemeDetector._get_macos_theme()
             elif IS_LINUX:
-                return ThemeDetector._get_linux_theme()
+                theme = ThemeDetector._get_linux_theme()
+            else:
+                theme = "dark"
         except Exception as e:
             print(f"检测系统主题失败: {e}")
+            theme = "dark"
         
-        return "dark"  # 默认深色
+        # 更新缓存
+        ThemeDetector._cached_theme = theme
+        ThemeDetector._cache_time = current_time
+        
+        return theme
     
     @staticmethod
     def _get_windows_theme():
@@ -48,16 +69,19 @@ class ThemeDetector:
     
     @staticmethod
     def _get_macos_theme():
-        """检测 macOS 主题"""
+        """检测 macOS 主题（优化版本）"""
         try:
             import subprocess
             result = subprocess.run(
                 ['defaults', 'read', '-g', 'AppleInterfaceStyle'],
                 capture_output=True,
                 text=True,
-                timeout=2
+                timeout=0.5  # 减少超时时间到 0.5 秒
             )
             return "dark" if result.returncode == 0 else "light"
+        except subprocess.TimeoutExpired:
+            print("macOS 主题检测超时，使用默认深色主题")
+            return "dark"
         except:
             return "dark"
     
@@ -489,24 +513,26 @@ QTabBar::tab:hover:!selected {
     color: #ffffff;
 }
 
-/* 悬浮窗特殊样式 */
+/* 悬浮窗特殊样式 - 现代卡片设计 */
 #FloatingInputWindow {
     background-color: #1e1e1e;
-    border: 3px solid #3daee9;
-    border-radius: 6px;
+    border: 2px solid #3daee9;
+    border-radius: 8px;
 }
 
 #FloatingInputWindow QLineEdit {
-    background-color: #252526;
+    background-color: #2d2d30;
     color: #cccccc;
-    border: 2px solid #3e3e42;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 16px;
     font-size: 11pt;
+    selection-background-color: #3daee9;
+    selection-color: #ffffff;
 }
 
 #FloatingInputWindow QLineEdit:focus {
-    border-color: #3daee9;
+    background-color: #3e3e42;
 }
 """
     
@@ -873,24 +899,26 @@ QTabBar::tab:hover:!selected {
     color: #ffffff;
 }
 
-/* 悬浮窗特殊样式 */
+/* 悬浮窗特殊样式 - 现代卡片设计 */
 #FloatingInputWindow {
-    background-color: #ffffff;
-    border: 3px solid #3daee9;
-    border-radius: 6px;
+    background-color: #f5f5f5;
+    border: 2px solid #3daee9;
+    border-radius: 8px;
 }
 
 #FloatingInputWindow QLineEdit {
-    background-color: #fcfcfc;
+    background-color: #ffffff;
     color: #31363b;
-    border: 2px solid #bdc3c7;
-    border-radius: 4px;
-    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 16px;
     font-size: 11pt;
+    selection-background-color: #3daee9;
+    selection-color: #ffffff;
 }
 
 #FloatingInputWindow QLineEdit:focus {
-    border-color: #3daee9;
+    background-color: #fafafa;
 }
 """
     

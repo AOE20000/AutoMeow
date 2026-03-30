@@ -34,14 +34,20 @@ def main():
     # 创建应用实例
     parser = MeowParser()
     
-    # 应用主题（使用样式管理器）
+    # 延迟应用主题，不阻塞启动
+    from PyQt6.QtCore import QTimer
+    QTimer.singleShot(0, lambda: _apply_theme(parser, app))
+    
+    sys.exit(app.exec())
+
+
+def _apply_theme(parser, app):
+    """延迟应用主题"""
     parser.style_manager.apply_theme(app)
     
     # 如果是自动模式，启动主题监控
     if parser.style_manager.current_theme == parser.style_manager.THEME_AUTO:
         parser.style_manager.start_theme_monitoring(app)
-    
-    sys.exit(app.exec())
 
 
 if __name__ == "__main__":

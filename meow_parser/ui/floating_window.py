@@ -6,7 +6,7 @@
 
 import time
 import threading
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QApplication
+from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication
 from PyQt6.QtCore import Qt, pyqtSignal
 import keyboard
 from ..constants import IS_WINDOWS
@@ -38,15 +38,15 @@ class FloatingInputWindow(QWidget):
         self.init_ui()
         
     def init_ui(self):
-        """初始化UI"""
-        # 设置窗口标志（移除 WindowDoesNotAcceptFocus）
+        """初始化UI - 极简设计"""
+        # 设置窗口标志
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
             Qt.WindowType.WindowStaysOnTopHint |
             Qt.WindowType.Tool
         )
         
-        # 设置对象名称，用于样式表选择器
+        # 设置对象名称
         self.setObjectName("FloatingInputWindow")
         
         # 确保窗口不透明
@@ -54,23 +54,14 @@ class FloatingInputWindow(QWidget):
         self.setAttribute(Qt.WidgetAttribute.WA_OpaquePaintEvent, True)
         self.setAttribute(Qt.WidgetAttribute.WA_NoSystemBackground, False)
         
-        # 设置固定大小，避免大小为0
-        self.setFixedSize(500, 80)
+        # 设置固定大小（紧凑设计）
+        self.setFixedSize(500, 60)
         
-        # 创建布局
-        layout = QVBoxLayout()
-        layout.setContentsMargins(10, 10, 10, 10)
-        layout.setSpacing(0)
-        
-        # 创建输入框
-        self.entry = QLineEdit()
-        self.entry.setFixedHeight(50)
+        # 创建输入框（居中放置，留出边距）
+        self.entry = QLineEdit(self)
+        self.entry.setGeometry(5, 5, 490, 50)
         self.entry.setPlaceholderText("输入内容 (回车发送 | Ctrl+回车原始 | ESC取消)")
-        
         self.entry.returnPressed.connect(self.on_enter)
-        layout.addWidget(self.entry)
-        
-        self.setLayout(layout)
         
         # 安装事件过滤器
         self.entry.installEventFilter(self)
@@ -124,7 +115,7 @@ class FloatingInputWindow(QWidget):
         
         # 确保窗口大小正确
         window_width = 500
-        window_height = 80
+        window_height = 60
         print(f"窗口大小: {window_width}x{window_height}")
         
         # 计算位置，避免超出屏幕

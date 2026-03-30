@@ -52,11 +52,46 @@ class MeowParser(QObject):
         
         # 基本状态
         self.enabled = False
-        self.allowed_windows = self.load_window_settings()
         
-        # 样式管理器
+        # 样式管理器（优先初始化，用于托盘菜单）
         from .ui.styles import StyleManager
         self.style_manager = StyleManager()
+        
+        # 创建系统托盘（最优先，确保立即可见和响应）
+        self.tray_manager = TrayIconManager(self)
+        self.tray_manager.show()
+        
+        # 延迟初始化的组件
+        self.floating_window = None
+        self.debug_window = None
+        self.window_manager = None
+        self.config_editor = None
+        
+        # 配置管理（延迟加载）
+        self.config_manager = None
+        self.text_processor = None
+        self.allowed_windows = {}
+        
+        # 输入监听相关
+        self.input_buffer = ""
+        self.last_input_time = 0
+        self.last_window = None
+        self.click_position = None
+        self.input_activated = False
+        
+        # 连接日志信号
+        self.log_signal.connect(self._log_to_debug)
+        
+        # 使用 QTimer 延迟初始化其他组件
+        from PyQt6.QtCore import QTimer
+        QTimer.singleShot(100, self._delayed_init)
+    
+    def _delayed_init(self):
+        """延迟初始化非关键组件"""
+        print("开始延迟初始化...")
+        
+        # 加载窗口设置
+        self.allowed_windows = self.load_window_settings()
         
         # 配置管理
         self.config_manager = ConfigFileManager(".meowparser/rules")
@@ -70,27 +105,11 @@ class MeowParser(QObject):
         # 迁移旧配置（如果存在）
         self._migrate_old_config_if_needed()
         
-        # 输入监听相关
-        self.input_buffer = ""
-        self.last_input_time = 0
-        self.last_window = None
-        self.click_position = None
-        self.input_activated = False
-        
-        # 创建UI组件
+        # 创建悬浮窗（延迟创建）
         self.floating_window = FloatingInputWindow(self)
         self.floating_window.hide()
         
-        self.debug_window = None
-        self.window_manager = None
-        self.config_editor = None
-        
-        # 创建系统托盘
-        self.tray_manager = TrayIconManager(self)
-        self.tray_manager.show()
-        
-        # 连接日志信号
-        self.log_signal.connect(self._log_to_debug)
+        print("延迟初始化完成")
     
     def check_admin(self):
         """检查管理员权限（已废弃，保留用于兼容性）"""
@@ -99,6 +118,16 @@ class MeowParser(QObject):
     
     def toggle(self):
         """切换启用/禁用状态"""
+        # 确保延迟初始化完成
+        if self.floating_window is None:
+            print("等待初始化完成...")
+            self.tray_manager.show_message(
+                "提示",
+                "正在初始化，请稍候...",
+                QSystemTrayIcon.MessageIcon.Information
+            )
+            return
+        
         self.enabled = not self.enabled
         self.tray_manager.update_icon(self.enabled)
         
@@ -319,6 +348,8 @@ class MeowParser(QObject):
     
     def process_text(self, text):
         """处理文本"""
+        if self.text_processor is None:
+            return text
         return self.text_processor.process(text)
     
     def debug_log(self, message):
@@ -457,6 +488,16 @@ class MeowParser(QObject):
     
     def show_window_manager(self):
         """显示窗口管理器"""
+        # 确保延迟初始化完成
+        if self.config_manager is None:
+            print("等待初始化完成...")
+            self.tray_manager.show_message(
+                "提示",
+                "正在初始化，请稍候...",
+                QSystemTrayIcon.MessageIcon.Information
+            )
+            return
+        
         try:
             if hasattr(self, 'window_manager') and self.window_manager:
                 self.window_manager.show()
@@ -471,6 +512,16 @@ class MeowParser(QObject):
     
     def show_replacement_editor(self):
         """显示配置文件编辑器"""
+        # 确保延迟初始化完成
+        if self.config_manager is None:
+            print("等待初始化完成...")
+            self.tray_manager.show_message(
+                "提示",
+                "正在初始化，请稍候...",
+                QSystemTrayIcon.MessageIcon.Information
+            )
+            return
+        
         try:
             if hasattr(self, 'config_editor') and self.config_editor:
                 self.config_editor.show()
