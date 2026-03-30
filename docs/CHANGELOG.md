@@ -1,5 +1,32 @@
 # 更新日志
 
+## [2.2.1] - 2026-03-30
+
+### 改进
+- 🚀 优化内置喵语转换规则 v2.0
+- 🛡️ 智能保护 URL 和配置项（如 `about:config`、`privacy.exposeContentTitleInWindow`）
+- ✨ 支持无标点符号换行自动添加"喵"
+- 🎯 改进冒号处理逻辑，避免破坏技术内容
+- 📝 优化括号嵌套支持
+- 🌐 添加英文句子保护，避免破坏英文标点
+
+### 新增
+- 🧪 完整的测试套件（30+ 测试用例）
+- 🔧 单文本测试工具 `test_single_text.py`
+- 📚 规则优化文档 `docs/RULES_OPTIMIZATION.md`
+- 📦 跨平台打包配置和脚本
+  - `meow_parser.spec` - PyInstaller 配置文件
+  - `build.py` - 跨平台自动打包脚本
+  - `build_windows.bat` - Windows 打包脚本
+  - `build_linux.sh` - Linux 打包脚本
+  - `BUILD_GUIDE.md` - 详细打包指南
+
+### 技术细节
+- 正则表达式优化，使用负向前瞻保护特殊内容
+- 规则执行顺序优化，确保正确的转换结果
+- 测试覆盖率提升，包括边界情况和复杂场景
+- PyInstaller 配置优化，支持单文件打包
+
 ## [2.2.0] - 2024-XX-XX
 
 ### 新增

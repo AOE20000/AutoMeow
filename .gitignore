@@ -22,7 +22,7 @@ wheels/
 
 # PyInstaller
 *.manifest
-*.spec
+# Keep meow_parser.spec for building
 
 # Virtual Environment
 venv/
@@ -45,7 +45,6 @@ Thumbs.db
 *.bak
 *.old
 *.tmp
-*_original.py
 
 # Config backups
 *.json.backup
@@ -56,16 +55,6 @@ Thumbs.db
 # Logs
 *.log
 
-# Development docs (keep only user-facing docs)
-*_DEBUG.md
-*_FIX.md
-*_ANALYSIS.md
-*_STATUS.md
-*_SUMMARY.md
-*_PLAN.md
-COMMIT_MESSAGE*.txt
-CLEANUP_PLAN.md
-
-# Test files (keep only main test files)
-test_temp*.py
-test_debug*.py
+# User data
+window_settings.json
+replacement_rules.json

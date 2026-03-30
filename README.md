@@ -162,12 +162,52 @@ python meow_parser.py
 # 安装依赖
 pip install -r requirements_pyqt6.txt
 
-# 运行测试
-python test_ui_modules.py
+# 运行完整测试套件
+python test_meow_rules.py
 
-# 打包程序
-pyinstaller --clean --noconsole --onefile meow_parser.py
+# 测试单个文本
+python test_single_text.py "你好，世界"
+
+# 交互式测试
+python test_single_text.py
+
+# 运行 UI 模块测试
+python test_ui_modules.py
 ```
+
+---
+
+## 打包
+
+### 跨平台打包（推荐）
+
+```bash
+# 自动检测系统并打包
+python build.py
+```
+
+### Windows 打包
+
+```cmd
+# 使用批处理脚本
+build_windows.bat
+
+# 或手动打包
+pyinstaller --clean meow_parser.spec
+```
+
+### Linux 打包
+
+```bash
+# 使用 shell 脚本
+chmod +x build_linux.sh
+./build_linux.sh
+
+# 或手动打包
+pyinstaller --clean meow_parser.spec
+```
+
+详细打包说明请查看 [BUILD_GUIDE.md](BUILD_GUIDE.md)
 
 ---
 
@@ -184,8 +224,12 @@ MeowParser/
 ├── .meowparser/           # 配置目录
 ├── README.md              # 本文档
 ├── LICENSE                # 许可证
-└── meow_parser.py         # 程序入口
+├── meow_parser.py         # 程序入口
+├── build.py               # 打包脚本
+└── test_meow_rules.py     # 测试套件
 ```
+
+详细结构请查看 [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
 ---
 

@@ -13,10 +13,38 @@
       "rules": [
         {
           "enabled": true,
-          "pattern": "([^喵])([。，！？；、）（：])",
+          "pattern": "([^喵\\s。，！？；、）（：])([。！？])",
           "replacement": "\\1喵\\2",
           "is_regex": true,
-          "description": "标点前添加喵"
+          "description": "句号、感叹号、问号前添加喵"
+        },
+        {
+          "enabled": true,
+          "pattern": "([^喵\\s。，！？；、）（：])([，、；])",
+          "replacement": "\\1喵\\2",
+          "is_regex": true,
+          "description": "逗号、顿号、分号前添加喵"
+        },
+        {
+          "enabled": true,
+          "pattern": "([^喵\\s。，！？；、）（：])([：])(?![a-zA-Z0-9_\\-\\.:/])",
+          "replacement": "\\1喵\\2",
+          "is_regex": true,
+          "description": "冒号前添加喵（排除URL和配置项）"
+        },
+        {
+          "enabled": true,
+          "pattern": "([^喵\\s。，！？；、）（：])(）)",
+          "replacement": "\\1喵\\2",
+          "is_regex": true,
+          "description": "右括号前添加喵"
+        },
+        {
+          "enabled": true,
+          "pattern": "(（)([^喵\\s])",
+          "replacement": "\\1\\2",
+          "is_regex": true,
+          "description": "左括号后不添加喵（占位规则）"
         },
         {
           "enabled": true,
@@ -27,10 +55,10 @@
         },
         {
           "enabled": true,
-          "pattern": "([^。，！？；、）（：\\n])$",
+          "pattern": "([^喵。，！？；、）（：\\n\\s.])$",
           "replacement": "\\1喵",
           "is_regex": true,
-          "description": "句尾添加喵"
+          "description": "句尾添加喵（排除英文句号结尾）"
         }
       ]
     }
