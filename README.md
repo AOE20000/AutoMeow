@@ -93,10 +93,10 @@
 ## 文档
 
 - [QUICKSTART.md](docs/QUICKSTART.md) - 快速开始
+- [CHANGELOG.md](docs/CHANGELOG.md) - 更新日志
+- [RULE_GROUPS_GUIDE.md](docs/RULE_GROUPS_GUIDE.md) - 配置文件指南
 - [CUSTOM_TRIGGER_GUIDE.md](docs/CUSTOM_TRIGGER_GUIDE.md) - 自定义触发器指南
 - [THEME_GUIDE.md](docs/THEME_GUIDE.md) - 主题切换指南
-- [CHANGELOG.md](docs/CHANGELOG.md) - 更新日志
-- [RULE_GROUPS_GUIDE.md](docs/RULE_GROUPS_GUIDE.md) - 规则指南
 - [PROJECT_LAYOUT.md](PROJECT_LAYOUT.md) - 项目结构
 - [BUILD_GUIDE.md](BUILD_GUIDE.md) - 打包说明
 - [LICENSE](LICENSE) - 开源协议
