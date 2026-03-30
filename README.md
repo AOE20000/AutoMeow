@@ -66,7 +66,7 @@
 
 ## 系统要求
 
-- Windows / Linux（未测试） / macOS（未适配）
+- Windows / Linux（未测试）
 - 管理员/ root 权限
 
 ---
