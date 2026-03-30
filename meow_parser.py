@@ -18,7 +18,7 @@ from PyQt6.QtWidgets import (
     QApplication, QSystemTrayIcon, QMenu, QWidget, QVBoxLayout, 
     QHBoxLayout, QLineEdit, QPushButton, QTextEdit, QLabel,
     QTreeWidget, QTreeWidgetItem, QDialog, QCheckBox, QMessageBox,
-    QFrame
+    QFrame, QComboBox
 )
 from PyQt6.QtCore import Qt, QTimer, pyqtSignal, QObject, QThread
 from PyQt6.QtGui import QIcon, QPixmap, QPainter, QColor, QFont, QAction
