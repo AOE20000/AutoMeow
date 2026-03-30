@@ -132,7 +132,7 @@ python meow_parser.py
 
 ## 致谢与许可
 
-本项目基于 - [AutoMeow](https://github.com/afoim/AutoMeow) 开发，特别感谢 afoim 的初期基础工作。
+本项目基于[ AutoMeow ](https://github.com/afoim/AutoMeow) 开发，特别感谢 afoim 的初期基础工作。
 
 虽然当前版本已进行了大规模重构，且重点已转移至即时文本处理，但最初的概念为我们提供了宝贵的起点。
 
